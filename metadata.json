@@ -1,0 +1,5 @@
+{
+  "name": "ClearView AI - Watermark Remover",
+  "description": "An intelligent tool powered by Gemini AI to remove watermarks, logos, and text overlays from images seamlessly.",
+  "requestFramePermissions": []
+}
