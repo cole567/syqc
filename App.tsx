@@ -32,7 +32,7 @@ const App: React.FC = () => {
       setState(prev => ({
         ...prev,
         status: 'error',
-        errorMessage: error.message || "Something went wrong. Please try again."
+        errorMessage: error.message || "出错了，请重试。"
       }));
     }
   };
@@ -56,13 +56,13 @@ const App: React.FC = () => {
           {state.status === 'idle' && (
             <div className="text-center space-y-4 py-8 animate-fade-in">
               <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white">
-                Remove Watermarks <br />
+                智能去除水印 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-purple-400">
-                  Like Magic
+                  宛如魔法
                 </span>
               </h2>
               <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
-                Upload your image and let our AI reconstruct the background, removing text, logos, and overlays instantly without losing quality.
+                上传您的图片，让我们的 AI 重构背景，瞬间去除文字、徽标和覆盖物，且不损失画质。
               </p>
             </div>
           )}
@@ -106,13 +106,13 @@ const App: React.FC = () => {
                     <AlertCircle className="w-6 h-6 text-red-500" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-white mb-1">Processing Failed</h3>
+                    <h3 className="text-lg font-semibold text-white mb-1">处理失败</h3>
                     <p className="text-red-200 text-sm mb-4">{state.errorMessage}</p>
                     <button 
                       onClick={resetApp}
                       className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-sm font-medium rounded-lg transition-colors"
                     >
-                      Try Again
+                      重试
                     </button>
                   </div>
                 </div>
@@ -124,9 +124,9 @@ const App: React.FC = () => {
           {state.status === 'idle' && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12 border-t border-dark-700/50">
               {[
-                { title: 'AI-Powered', desc: 'Uses advanced Gemini Vision models to understand image context.' },
-                { title: 'High Quality', desc: 'Maintains original resolution while filling background gaps.' },
-                { title: 'Privacy First', desc: 'Images are processed in memory and not stored permanently.' }
+                { title: 'AI 驱动', desc: '使用先进的 Gemini Vision 模型理解图像内容。' },
+                { title: '高质量', desc: '保持原始分辨率的同时填充背景空隙。' },
+                { title: '隐私优先', desc: '图像仅在内存中处理，不会永久存储。' }
               ].map((feat, idx) => (
                 <div key={idx} className="p-6 rounded-2xl bg-dark-800/50 border border-dark-700 hover:bg-dark-800 transition-colors">
                   <h3 className="text-white font-semibold mb-2">{feat.title}</h3>
@@ -140,7 +140,7 @@ const App: React.FC = () => {
       </main>
 
       <footer className="py-6 text-center text-gray-600 text-sm border-t border-dark-800 mt-auto">
-        <p>© {new Date().getFullYear()} ClearView AI. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} ClearView AI. 保留所有权利。</p>
       </footer>
 
       <style>{`

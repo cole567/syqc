@@ -76,13 +76,13 @@ export const ComparisonSlider: React.FC<ComparisonProps & { onReset: () => void 
           />
           {/* Label Original */}
           <div className="absolute top-4 left-4 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">
-            ORIGINAL
+            原图
           </div>
         </div>
 
         {/* Label Processed */}
          <div className="absolute top-4 right-4 bg-primary-600/80 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">
-            CLEANED
+            去水印后
           </div>
 
         {/* Slider Handle */}
@@ -101,7 +101,7 @@ export const ComparisonSlider: React.FC<ComparisonProps & { onReset: () => void 
       {/* Action Bar */}
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-center bg-dark-800 p-4 rounded-xl border border-dark-700">
         <div className="text-sm text-gray-400">
-          <span className="text-white font-medium">Comparison Mode:</span> Drag the slider to see the difference.
+          <span className="text-white font-medium">对比模式：</span> 拖动滑块查看差异。
         </div>
         <div className="flex gap-3 w-full sm:w-auto">
           <button 
@@ -109,14 +109,14 @@ export const ComparisonSlider: React.FC<ComparisonProps & { onReset: () => void 
             className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-dark-700 hover:bg-dark-600 text-white font-medium transition-colors border border-dark-600"
           >
             <RefreshCw className="w-4 h-4" />
-            New Image
+            上传新图
           </button>
           <button 
             onClick={downloadImage}
             className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2 rounded-lg bg-primary-600 hover:bg-primary-500 text-white font-bold transition-all shadow-lg shadow-primary-900/50"
           >
             <Download className="w-4 h-4" />
-            Download
+            下载图片
           </button>
         </div>
       </div>

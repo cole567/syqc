@@ -11,7 +11,7 @@ const ai = new GoogleGenAI({ apiKey: API_KEY });
  */
 export const removeWatermarkFromImage = async (base64Image: string): Promise<string> => {
   if (!API_KEY) {
-    throw new Error("API Key is missing. Please check your configuration.");
+    throw new Error("缺少 API 密钥。请检查您的配置。");
   }
 
   // Ensure the base64 string doesn't contain the data URL prefix for the API payload
@@ -54,10 +54,10 @@ export const removeWatermarkFromImage = async (base64Image: string): Promise<str
       }
     }
 
-    throw new Error("The model did not return an image. It might have refused the request.");
+    throw new Error("模型未返回图像。请求可能已被拒绝。");
 
   } catch (error: any) {
     console.error("Gemini API Error:", error);
-    throw new Error(error.message || "Failed to process image.");
+    throw new Error(error.message || "处理图像失败。");
   }
 };

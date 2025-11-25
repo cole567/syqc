@@ -13,13 +13,13 @@ export const Header: React.FC = () => {
             <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
               ClearView AI
             </h1>
-            <p className="text-xs text-gray-500">Intelligent Watermark Remover</p>
+            <p className="text-xs text-gray-500">智能去水印工具</p>
           </div>
         </div>
         
         <div className="hidden sm:flex items-center gap-2 text-sm text-gray-400">
           <Sparkles className="w-4 h-4 text-primary-500" />
-          <span>Powered by Gemini 2.5 Flash</span>
+          <span>由 Gemini 2.5 Flash 驱动</span>
         </div>
       </div>
     </header>

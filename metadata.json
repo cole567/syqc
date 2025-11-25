@@ -1,5 +1,5 @@
 {
-  "name": "ClearView AI - Watermark Remover",
-  "description": "An intelligent tool powered by Gemini AI to remove watermarks, logos, and text overlays from images seamlessly.",
+  "name": "ClearView AI - 智能去水印",
+  "description": "由 Gemini AI 驱动的智能工具，可无缝去除图像中的水印、徽标和文字覆盖。",
   "requestFramePermissions": []
 }

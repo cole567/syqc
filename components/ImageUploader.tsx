@@ -73,8 +73,8 @@ export const ImageUploader: React.FC<UploadProps> = ({ onImageSelected, isProces
               <Loader2 className="w-12 h-12 text-primary-500 animate-spin relative z-10" />
             </div>
             <div className="space-y-1">
-              <p className="text-lg font-medium text-white">Analyzing Image...</p>
-              <p className="text-sm text-gray-400">Removing watermark artifacts</p>
+              <p className="text-lg font-medium text-white">正在分析图像...</p>
+              <p className="text-sm text-gray-400">正在去除水印痕迹</p>
             </div>
           </>
         ) : (
@@ -88,11 +88,11 @@ export const ImageUploader: React.FC<UploadProps> = ({ onImageSelected, isProces
             
             <div className="space-y-2">
               <h3 className="text-lg font-semibold text-white">
-                {isDragging ? 'Drop image here' : 'Upload an Image'}
+                {isDragging ? '将图像拖放到此处' : '上传图像'}
               </h3>
               <p className="text-sm text-gray-400 max-w-xs mx-auto">
-                Drag & drop or click to browse. <br/>
-                <span className="text-xs opacity-70">Supports JPG, PNG, WEBP</span>
+                拖放或点击浏览 <br/>
+                <span className="text-xs opacity-70">支持 JPG, PNG, WEBP</span>
               </p>
             </div>
           </>
