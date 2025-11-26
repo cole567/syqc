@@ -10,6 +10,8 @@ export default defineConfig({
       '@': path.resolve(__dirname, '.') 
     }
   },
-  // 这里的 define 块删掉了，因为我们已经在代码里用了 import.meta.env
-  // 这里的 base 也没设置，默认为 '/'，这正是 Vercel 需要的
+  // 👇👇👇 新增这一段，专门解决 "process is not defined" 错误 👇👇👇
+  define: {
+    'process.env': {}
+  }
 })
