@@ -1,5 +1,5 @@
 {
-  "name": "ClearView AI - 智能去水印",
-  "description": "由 Gemini AI 驱动的智能工具，可无缝去除图像中的水印、徽标和文字覆盖。",
+  "name": "ClearView AI - 智能图像处理",
+  "description": "由 Gemini AI 驱动的智能工具，提供图片去水印和画质增强功能。",
   "requestFramePermissions": []
 }

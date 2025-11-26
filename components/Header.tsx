@@ -13,7 +13,7 @@ export const Header: React.FC = () => {
             <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
               ClearView AI
             </h1>
-            <p className="text-xs text-gray-500">智能去水印工具</p>
+            <p className="text-xs text-gray-500">一站式智能图像处理工具</p>
           </div>
         </div>
         

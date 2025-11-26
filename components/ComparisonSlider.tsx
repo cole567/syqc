@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Download, RefreshCw, ChevronsLeftRight } from 'lucide-react';
 import { ComparisonProps } from '../types';
 
-export const ComparisonSlider: React.FC<ComparisonProps & { onReset: () => void }> = ({ original, processed, onReset }) => {
+export const ComparisonSlider: React.FC<ComparisonProps & { onReset: () => void }> = ({ original, processed, onReset, mode }) => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isResizing, setIsResizing] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -43,11 +43,13 @@ export const ComparisonSlider: React.FC<ComparisonProps & { onReset: () => void 
   const downloadImage = () => {
     const link = document.createElement('a');
     link.href = processed;
-    link.download = 'clean_image_gemini.png';
+    link.download = mode === 'watermark' ? 'clean_image_gemini.png' : 'enhanced_image_gemini.png';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
+
+  const processedLabel = mode === 'watermark' ? '去水印后' : '增强后';
 
   return (
     <div className="w-full space-y-6">
@@ -82,7 +84,7 @@ export const ComparisonSlider: React.FC<ComparisonProps & { onReset: () => void 
 
         {/* Label Processed */}
          <div className="absolute top-4 right-4 bg-primary-600/80 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">
-            去水印后
+            {processedLabel}
           </div>
 
         {/* Slider Handle */}

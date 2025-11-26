@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { UploadCloud, ImagePlus, Loader2 } from 'lucide-react';
 import { UploadProps } from '../types';
 
-export const ImageUploader: React.FC<UploadProps> = ({ onImageSelected, isProcessing }) => {
+export const ImageUploader: React.FC<UploadProps> = ({ onImageSelected, isProcessing, mode }) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleFile = (file: File) => {
@@ -42,6 +42,13 @@ export const ImageUploader: React.FC<UploadProps> = ({ onImageSelected, isProces
     }
   };
 
+  const getProcessingText = () => {
+    if (mode === 'watermark') return { title: '正在去除水印...', subtitle: '智能重构背景中' };
+    return { title: '正在增强画质...', subtitle: '提升清晰度与细节' };
+  };
+
+  const text = getProcessingText();
+
   return (
     <div
       onDragOver={onDragOver}
@@ -73,8 +80,8 @@ export const ImageUploader: React.FC<UploadProps> = ({ onImageSelected, isProces
               <Loader2 className="w-12 h-12 text-primary-500 animate-spin relative z-10" />
             </div>
             <div className="space-y-1">
-              <p className="text-lg font-medium text-white">正在分析图像...</p>
-              <p className="text-sm text-gray-400">正在去除水印痕迹</p>
+              <p className="text-lg font-medium text-white">{text.title}</p>
+              <p className="text-sm text-gray-400">{text.subtitle}</p>
             </div>
           </>
         ) : (

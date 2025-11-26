@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { ImageUploader } from './components/ImageUploader';
 import { ComparisonSlider } from './components/ComparisonSlider';
-import { removeWatermarkFromImage } from './services/geminiService';
-import { ProcessedImageResult } from './types';
-import { AlertCircle } from 'lucide-react';
+import { removeWatermarkFromImage, enhanceImageQuality } from './services/geminiService';
+import { ProcessedImageResult, AppMode } from './types';
+import { AlertCircle, Eraser, Wand2 } from 'lucide-react';
 
 const App: React.FC = () => {
+  const [mode, setMode] = useState<AppMode>('watermark');
   const [state, setState] = useState<ProcessedImageResult>({
     originalUrl: '',
     processedUrl: null,
@@ -21,7 +22,10 @@ const App: React.FC = () => {
     });
 
     try {
-      const processedImage = await removeWatermarkFromImage(base64);
+      const processedImage = mode === 'watermark' 
+        ? await removeWatermarkFromImage(base64)
+        : await enhanceImageQuality(base64);
+
       setState(prev => ({
         ...prev,
         processedUrl: processedImage,
@@ -45,24 +49,74 @@ const App: React.FC = () => {
     });
   };
 
+  const switchMode = (newMode: AppMode) => {
+    if (state.status !== 'idle' && state.status !== 'completed' && state.status !== 'error') return;
+    setMode(newMode);
+    // Optional: Reset state when switching modes if you want a fresh start
+    // resetApp(); 
+  };
+
+  const getContentText = () => {
+    if (mode === 'watermark') {
+      return {
+        title: '智能去除水印',
+        highlight: '宛如魔法',
+        desc: '上传您的图片，让我们的 AI 重构背景，瞬间去除文字、徽标和覆盖物，且不损失画质。'
+      };
+    } else {
+      return {
+        title: '智能画质增强',
+        highlight: '清晰入微',
+        desc: '一键提升照片清晰度。智能降噪、锐化细节，让模糊的图片焕发新生。'
+      };
+    }
+  };
+
+  const content = getContentText();
+
   return (
     <div className="min-h-screen flex flex-col font-sans">
       <Header />
 
       <main className="flex-grow container mx-auto px-4 py-8 max-w-5xl">
-        <div className="space-y-12">
+        <div className="space-y-10">
           
-          {/* Hero Section - Only show when idle */}
+          {/* Hero Section */}
           {state.status === 'idle' && (
-            <div className="text-center space-y-4 py-8 animate-fade-in">
+            <div className="text-center space-y-6 py-4 animate-fade-in">
+              <div className="inline-flex p-1 bg-dark-800 rounded-xl border border-dark-700 mb-4">
+                <button
+                  onClick={() => switchMode('watermark')}
+                  className={`flex items-center gap-2 px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    mode === 'watermark' 
+                      ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/50' 
+                      : 'text-gray-400 hover:text-white hover:bg-dark-700'
+                  }`}
+                >
+                  <Eraser className="w-4 h-4" />
+                  去除水印
+                </button>
+                <button
+                  onClick={() => switchMode('enhance')}
+                  className={`flex items-center gap-2 px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    mode === 'enhance' 
+                      ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/50' 
+                      : 'text-gray-400 hover:text-white hover:bg-dark-700'
+                  }`}
+                >
+                  <Wand2 className="w-4 h-4" />
+                  画质增强
+                </button>
+              </div>
+
               <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white">
-                智能去除水印 <br />
+                {content.title} <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-purple-400">
-                  宛如魔法
+                  {content.highlight}
                 </span>
               </h2>
               <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
-                上传您的图片，让我们的 AI 重构背景，瞬间去除文字、徽标和覆盖物，且不损失画质。
+                {content.desc}
               </p>
             </div>
           )}
@@ -73,6 +127,7 @@ const App: React.FC = () => {
               <ImageUploader 
                 onImageSelected={handleImageSelected} 
                 isProcessing={false} 
+                mode={mode}
               />
             )}
 
@@ -81,6 +136,7 @@ const App: React.FC = () => {
                 <ImageUploader 
                   onImageSelected={() => {}} 
                   isProcessing={true} 
+                  mode={mode}
                 />
                  {/* Preview of what's being processed */}
                 <div className="opacity-50 blur-sm pointer-events-none max-w-md mx-auto h-48 overflow-hidden rounded-lg border border-dark-700">
@@ -95,6 +151,7 @@ const App: React.FC = () => {
                   original={state.originalUrl} 
                   processed={state.processedUrl}
                   onReset={resetApp}
+                  mode={mode}
                 />
               </div>
             )}
@@ -120,19 +177,27 @@ const App: React.FC = () => {
             )}
           </div>
           
-          {/* Features Grid - Only visible in idle state for SEO/Explanation */}
+          {/* Features Grid - Only visible in idle state */}
           {state.status === 'idle' && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12 border-t border-dark-700/50">
-              {[
-                { title: 'AI 驱动', desc: '使用先进的 Gemini Vision 模型理解图像内容。' },
-                { title: '高质量', desc: '保持原始分辨率的同时填充背景空隙。' },
-                { title: '隐私优先', desc: '图像仅在内存中处理，不会永久存储。' }
-              ].map((feat, idx) => (
-                <div key={idx} className="p-6 rounded-2xl bg-dark-800/50 border border-dark-700 hover:bg-dark-800 transition-colors">
-                  <h3 className="text-white font-semibold mb-2">{feat.title}</h3>
-                  <p className="text-gray-400 text-sm">{feat.desc}</p>
-                </div>
-              ))}
+              <div className="p-6 rounded-2xl bg-dark-800/50 border border-dark-700 hover:bg-dark-800 transition-colors">
+                <h3 className="text-white font-semibold mb-2 flex items-center gap-2">
+                  <Eraser className="w-4 h-4 text-primary-500" /> 智能消笔
+                </h3>
+                <p className="text-gray-400 text-sm">精准识别并移除图片中的水印、路人或不需要的物体。</p>
+              </div>
+              <div className="p-6 rounded-2xl bg-dark-800/50 border border-dark-700 hover:bg-dark-800 transition-colors">
+                <h3 className="text-white font-semibold mb-2 flex items-center gap-2">
+                  <Wand2 className="w-4 h-4 text-purple-500" /> 画质增强
+                </h3>
+                <p className="text-gray-400 text-sm">智能修复模糊图片，提升分辨率，让照片细节更加清晰。</p>
+              </div>
+              <div className="p-6 rounded-2xl bg-dark-800/50 border border-dark-700 hover:bg-dark-800 transition-colors">
+                 <h3 className="text-white font-semibold mb-2 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-green-500" /> 隐私保护
+                </h3>
+                <p className="text-gray-400 text-sm">图片仅在浏览器会话中处理，不会永久存储在服务器上。</p>
+              </div>
             </div>
           )}
 
