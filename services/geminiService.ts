@@ -21,7 +21,7 @@ export const removeWatermarkFromImage = async (base64Image: string): Promise<str
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-image',
+      model: 'gemini-1.5-flash',
       contents: {
         parts: [
           { inlineData: { data: base64Data, mimeType: mimeType } },
@@ -44,7 +44,7 @@ export const enhanceImageQuality = async (base64Image: string): Promise<string> 
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-image',
+      model: 'gemini-1.5-flash',
       contents: {
         parts: [
           { inlineData: { data: base64Data, mimeType: mimeType } },
