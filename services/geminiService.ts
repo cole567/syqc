@@ -6,7 +6,7 @@ const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
 // 初始化 AI 客户端
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 
-// 辅助函数：处理 Base64 图片格式
+// 辅助函数：处理 Base64 图片
 const prepareImageForAPI = (base64Image: string) => {
   const base64Data = base64Image.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, '');
   const mimeTypeMatch = base64Image.match(/^data:(image\/[a-zA-Z]+);base64,/);
@@ -22,9 +22,8 @@ const extractResponse = (response: any) => {
         return `data:image/png;base64,${part.inlineData.data}`;
       }
       if (part.text) {
-         console.log("模型返回了文本:", part.text);
-         // 如果模型还是不给图，我们就把它的借口展示出来
-         throw new Error("AI 无法生成图片，它说：" + part.text.slice(0, 100));
+         console.log("模型返回文本:", part.text);
+         throw new Error("AI 返回了文字而非图片，可能是因为该模型目前不支持图像编辑功能，或者图片过于复杂。AI回复：" + part.text.slice(0, 50));
       }
     }
   }
@@ -33,14 +32,14 @@ const extractResponse = (response: any) => {
 
 // 功能 1：去水印
 export const removeWatermarkFromImage = async (base64Image: string): Promise<string> => {
-  if (!API_KEY) throw new Error("缺少 API 密钥 (VITE_GEMINI_API_KEY)");
+  if (!API_KEY) throw new Error("缺少 API 密钥");
   
   const { base64Data, mimeType } = prepareImageForAPI(base64Image);
 
   try {
     const response = await ai.models.generateContent({
-      // ✅ 改回了最稳定的 1.5 Flash
-      model: 'gemini-1.5-flash', 
+      // ✅✅✅ 这里改成了带版本号的全名，绝对存在！
+      model: 'gemini-1.5-flash-002', 
       contents: {
         parts: [
           { inlineData: { data: base64Data, mimeType: mimeType } },
@@ -51,8 +50,13 @@ export const removeWatermarkFromImage = async (base64Image: string): Promise<str
     return extractResponse(response);
   } catch (error: any) {
     console.error("Gemini API Error:", error);
+    // 处理 429 请求过快
     if (error.message && error.message.includes('429')) {
-       throw new Error("免费额度请求太快，请喝口水，休息 1 分钟后再试！");
+       throw new Error("请求太快了，请休息 1 分钟后再试！");
+    }
+    // 处理 404 (虽然加了版本号应该不会了，但以防万一)
+    if (error.message && error.message.includes('404')) {
+        throw new Error("找不到模型，请检查 Google AI Studio 是否支持该区域。");
     }
     throw new Error(error.message || "去水印失败");
   }
@@ -60,14 +64,14 @@ export const removeWatermarkFromImage = async (base64Image: string): Promise<str
 
 // 功能 2：画质增强
 export const enhanceImageQuality = async (base64Image: string): Promise<string> => {
-  if (!API_KEY) throw new Error("缺少 API 密钥 (VITE_GEMINI_API_KEY)");
+  if (!API_KEY) throw new Error("缺少 API 密钥");
 
   const { base64Data, mimeType } = prepareImageForAPI(base64Image);
 
   try {
     const response = await ai.models.generateContent({
-      // ✅ 改回了最稳定的 1.5 Flash
-      model: 'gemini-1.5-flash',
+      // ✅✅✅ 这里也改成了带版本号的全名
+      model: 'gemini-1.5-flash-002',
       contents: {
         parts: [
           { inlineData: { data: base64Data, mimeType: mimeType } },
