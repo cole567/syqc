@@ -4,59 +4,34 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="https://vitejs.dev/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ClearView AI - 智能图像处理</title>
+    <title>ClearView AI - 智能去水印</title>
+    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
           extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
+            fontFamily: { sans: ['Inter', 'sans-serif'] },
             colors: {
-              primary: {
-                50: '#f0f9ff',
-                100: '#e0f2fe',
-                500: '#0ea5e9',
-                600: '#0284c7',
-                700: '#0369a1',
-              },
-              dark: {
-                900: '#0f172a',
-                800: '#1e293b',
-                700: '#334155',
-              }
+              primary: { 50:'#f0f9ff', 100:'#e0f2fe', 500:'#0ea5e9', 600:'#0284c7', 700:'#0369a1' },
+              dark: { 900:'#0f172a', 800:'#1e293b', 700:'#334155' }
             }
           }
         }
       }
     </script>
     <style>
-      body {
-        background-color: #0f172a;
-        color: #f8fafc;
-      }
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #1e293b; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #475569; 
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #64748b; 
-      }
+      body { background-color: #0f172a; color: #f8fafc; }
+      ::-webkit-scrollbar { width: 8px; height: 8px; }
+      ::-webkit-scrollbar-track { background: #1e293b; }
+      ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #64748b; }
     </style>
-</head>
+    <!-- ❌ 注意：这里一定不能有 importmap 代码 -->
+    <!-- ❌ 注意：这里不要有 /index.css 的引用，除非你确定有这个文件 -->
+  </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>
