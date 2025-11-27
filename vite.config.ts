@@ -10,8 +10,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, '.'),
     }
   },
-  // 必须加上这个，防止 "process is not defined" 报错
+  // 👇 专门解决各种 "Not Defined" 报错的补丁
   define: {
-    'process.env': {} 
+    'process.env': {},
+    global: 'window', // 有些库需要这个
   }
 });
